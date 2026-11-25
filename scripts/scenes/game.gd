@@ -208,12 +208,13 @@ func _start_sentence() -> void:
 	dir = Vector2i.RIGHT
 	dir_queue.clear()
 
-	# snake starts center-left, length 3
+	# snake starts center-left, length 3; snake[0] is the HEAD.
+	# dir == RIGHT, so the head must be the RIGHTMOST cell, body trails left.
 	var cy := grid.y / 2
 	var cx := grid.x / 4
 	for i in 3:
-		snake.push_front(Vector2i(cx - i, cy))
-		snake_labels.push_front(-1)
+		snake.push_back(Vector2i(cx - i, cy))
+		snake_labels.push_back(-1)
 
 	_spawn_target()
 	_spawn_decoys(2)

@@ -83,6 +83,12 @@ func _run() -> void:
 	_assert(st["blocks"] >= 1, "decoy blocks spawned")
 	await _shot("04_game_play")
 
+	# real movement: snake must advance on its own via _process/_step
+	var head_before: Vector2i = game.snake[0]
+	await _wait(1.2)
+	_assert(game.snake[0] != head_before and game.hook_state() == "PLAY", "snake auto-moves without input, no instant death (%s -> %s, %s)" % [head_before, game.snake[0], game.hook_state()])
+	await _shot("04b_game_moved")
+
 	# steering: queue direction changes (must not crash / must not 180°)
 	game.hook_set_dir(Vector2i.DOWN)
 	await _wait(0.5)
