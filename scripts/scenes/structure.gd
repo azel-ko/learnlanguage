@@ -24,7 +24,7 @@ func _build() -> void:
 	vb.add_theme_constant_override("separation", 14)
 	add_child(vb)
 
-	vb.add_child(UiKit.label("语法树 · 第 %d 句" % (GameData.current_index + 1), 48, UiKit.PINK_DARK))
+	vb.add_child(UiKit.label("语法树 · 第 %d 句" % (GameData.current_index + 1), 48, UiKit.PINK))
 	vb.add_child(UiKit.label(GameData.sentence().get("en", ""), 26, UiKit.INK))
 
 	_canvas = Control.new()
@@ -43,10 +43,10 @@ func _build() -> void:
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 20)
-	var back := UiKit.candy_button("◀ 返回游戏", 28, UiKit.LAV, UiKit.INK)
+	var back := UiKit.candy_button("◀ 返回游戏", 28, UiKit.PAPER, UiKit.INK)
 	back.pressed.connect(func(): Sfx.click(); get_tree().change_scene_to_file("res://scenes/game.tscn"))
 	row.add_child(back)
-	var replay := UiKit.candy_button("再玩一次", 28, UiKit.MINT_DARK)
+	var replay := UiKit.candy_button("再玩一次", 28, UiKit.MINT, UiKit.INK)
 	replay.pressed.connect(func(): Sfx.click(); get_tree().change_scene_to_file("res://scenes/game.tscn"))
 	row.add_child(replay)
 	vb.add_child(row)
