@@ -122,6 +122,7 @@ func _run() -> void:
 	st = game.hook_stats()
 	_assert(st["lives"] == lives_before - 1, "challenge: wrong eat costs life (%d->%d)" % [lives_before, st["lives"]])
 	_assert(st["wrong"] == 1, "wrong counter incremented")
+	_assert(st["foods"] == chunk_n, "wrong eat does NOT remove the cupcake (stays for later)")
 	await _shot("06_game_wrong_challenge")
 	GameData.practice_mode = true
 

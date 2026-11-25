@@ -699,10 +699,12 @@ func _step() -> void:
 
 	var hit: int = foods.get(head, -1)
 	if hit >= 0:
-		foods.erase(head)
 		if hit == next_idx:
+			foods.erase(head)
 			_eat_target()
 		else:
+			# wrong chunk: penalty only — the cupcake STAYS on the board
+			# so it can be eaten later when its turn comes
 			_wrong_eat(hit)
 		return
 	snake.pop_back()
