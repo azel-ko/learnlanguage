@@ -3,10 +3,11 @@ extends Control
 ## Candy/toy-vinyl skin: dark board, cupcake food, sticker labels.
 ## Test hooks: hook_start / hook_set_dir / hook_eat_next / hook_wrong / hook_stats.
 
-const COLS := 22
-const ROWS := 14
-const BASE_INTERVAL := 0.38
-const MIN_INTERVAL := 0.13
+const COLS := 24
+const ROWS := 16
+const BASE_INTERVAL := 0.26
+const MIN_INTERVAL := 0.11
+const SPEED_STEP := 0.014
 const START_LIVES := 3
 
 enum State { COUNTDOWN, PLAY, PAUSE, OVER, COMPLETE }
@@ -19,9 +20,8 @@ var board_rect := Rect2()
 var snake: Array[Vector2i] = []
 var dir := Vector2i.RIGHT
 var dir_queue: Array[Vector2i] = []
-var blocks := {}            # Vector2i cell -> chunk index
-var target_cell := Vector2i(-1, -1)
-var next_idx := 0
+var foods := {}            # Vector2i cell -> chunk index (ALL chunks placed at start)
+var next_idx := 0          # target chunk index = next to eat
 var eaten := 0
 var score := 0
 var combo := 0
@@ -47,6 +47,7 @@ var _great: Control
 var _great_label: Label
 var _warn: PanelContainer
 var _warn_text: Label
+var _warn_cb := Callable()
 var _pause_veil: Control
 var _touch_pad: GridContainer
 var _foot: PanelContainer
@@ -450,7 +451,7 @@ func _start_sentence() -> void:
 		return
 	snake.clear()
 	snake_labels.clear()
-	blocks.clear()
+	foods.clear()
 	next_idx = 0
 	eaten = 0
 	score = 0
@@ -476,8 +477,7 @@ func _start_sentence() -> void:
 		snake.push_back(Vector2i(cx - i, cy))
 		snake_labels.push_back(-1)
 
-	_spawn_target()
-	_spawn_decoys(2)
+	_place_foods()
 
 	_chip_set("mode", "练习" if GameData.practice_mode else "挑战")
 	_chip_set("score", "0 分")
@@ -496,50 +496,47 @@ func _result_panel_setup_hide() -> void:
 		_result_panel.visible = false
 
 
-func _spawn_target() -> void:
+## Place ALL chunk cupcakes on the board once (like the web reference):
+## random free cells, excluding the snake, duplicates, and the bottom-left
+## zone reserved for the meaning panel.
+func _place_foods() -> void:
+	foods.clear()
 	var chunks: Array = GameData.sentence().get("chunks", [])
-	if next_idx >= chunks.size():
-		target_cell = Vector2i(-1, -1)
-		return
-	target_cell = _free_cell_far_from(snake[0], 6)
-
-
-func _spawn_decoys(n: int) -> void:
-	var chunks: Array = GameData.sentence().get("chunks", [])
-	var candidates: Array[int] = []
-	for i in chunks.size():
-		if i != next_idx and not _is_eaten_idx(i):
-			candidates.append(i)
-	candidates.shuffle()
-	var spawned := 0
-	for ci in candidates:
-		if spawned >= n:
+	var occupied := {}
+	for p in snake:
+		occupied[p] = true
+	for ci in chunks.size():
+		var cell := Vector2i(-1, -1)
+		for _try in 500:
+			var c := Vector2i(randi() % grid.x, randi() % grid.y)
+			# reserved: bottom-left meaning-panel area
+			if c.x < grid.x * 0.45 and c.y >= grid.y - 4:
+				continue
+			if occupied.has(c) or foods.has(c):
+				continue
+			cell = c
 			break
-		var cell := _free_cell_far_from(snake[0], 4)
 		if cell.x < 0:
-			break
-		blocks[cell] = ci
-		spawned += 1
+			# fallback: scan for any free cell
+			for y in grid.y:
+				for x in grid.x:
+					var c := Vector2i(x, y)
+					if not occupied.has(c) and not foods.has(c) and not (c.x < grid.x * 0.45 and c.y >= grid.y - 4):
+						cell = c
+						break
+				if cell.x >= 0:
+					break
+		if cell.x < 0:
+			cell = Vector2i(grid.x - 1, 0)
+		foods[cell] = ci
+		occupied[cell] = true
 
 
-func _is_eaten_idx(i: int) -> bool:
-	for l in snake_labels:
-		if l == i:
-			return true
-	return false
-
-
-func _free_cell_far_from(from: Vector2i, min_dist: int) -> Vector2i:
-	var tries := 0
-	while tries < 200:
-		tries += 1
-		var c := Vector2i(randi() % grid.x, randi() % grid.y)
-		if _cell_blocked(c):
-			continue
-		if c == target_cell or blocks.has(c):
-			continue
-		if (c - from).length() >= min_dist or tries > 120:
-			return c
+## cell currently holding the next target chunk (-1 if none)
+func _target_cell() -> Vector2i:
+	for cell in foods.keys():
+		if foods[cell] == next_idx:
+			return cell
 	return Vector2i(-1, -1)
 
 
@@ -630,6 +627,12 @@ func _process(delta: float) -> void:
 			else:
 				_update_countdown()
 		State.PLAY:
+			# warn modal pauses the snake (like the web reference)
+			if _warn.visible:
+				_update_popups(delta)
+				_update_hud()
+				_state_redraw()
+				return
 			elapsed += delta
 			if stun_t > 0.0:
 				stun_t -= delta
@@ -667,23 +670,23 @@ func _step() -> void:
 			dir = nd
 	var head: Vector2i = snake[0] + dir
 	if head.x < 0 or head.y < 0 or head.x >= grid.x or head.y >= grid.y:
-		_game_over()
+		_game_over("撞墙了,再试一次!")
 		return
 	var body := snake.duplicate()
 	body.resize(body.size() - 1)
 	if body.has(head):
-		_game_over()
+		_game_over("撞到自己了,再来一局!")
 		return
 	snake.push_front(head)
 	snake_labels.push_front(-1)
 
-	if head == target_cell:
-		_eat_target()
-		return
-	if blocks.has(head):
-		var ci: int = blocks[head]
-		blocks.erase(head)
-		_wrong_eat(ci)
+	var hit: int = foods.get(head, -1)
+	if hit >= 0:
+		foods.erase(head)
+		if hit == next_idx:
+			_eat_target()
+		else:
+			_wrong_eat(hit)
 		return
 	snake.pop_back()
 	snake_labels.pop_back()
@@ -699,9 +702,10 @@ func _eat_target() -> void:
 	next_idx += 1
 	eaten += 1
 	combo += 1
-	var gain := 100 + mini(combo - 1, 10) * 20
+	# score: 100 + time bonus like the web reference (max 20s bonus)
+	var gain := 100 + maxi(0, 20 - int(elapsed))
 	score += gain
-	move_interval = maxf(MIN_INTERVAL, move_interval * 0.97)
+	move_interval = maxf(MIN_INTERVAL, BASE_INTERVAL - eaten * SPEED_STEP)
 	snake_labels[0] = ci
 	ripples.append({ "pos": _cell_center(snake[0]), "t": 0.0 })
 	_popups_add("+%d" % gain, _cell_center(snake[0]) + Vector2(0, -34), UiKit.YELLOW)
@@ -709,12 +713,8 @@ func _eat_target() -> void:
 	Sfx.eat()
 	if combo % 5 == 0:
 		Sfx.great()
-	if blocks.size() < 2 and next_idx < chunks.size():
-		_spawn_decoys(1)
 	if next_idx >= chunks.size():
 		_sentence_complete()
-	else:
-		_spawn_target()
 	_update_hud()
 
 
@@ -736,29 +736,39 @@ func _popups_add(text: String, pos: Vector2, color: Color) -> void:
 func _wrong_eat(ci: int) -> void:
 	wrong_count += 1
 	combo = 0
-	stun_t = 0.6
+	stun_t = 0.0
 	var head_pos := _cell_center(snake[0])
 	_popups_add("顺序不对!先吃第 %d 块" % (next_idx + 1), head_pos + Vector2(0, -40), Color("ff9ec4"))
 	if GameData.practice_mode:
-		_warn_text.text = "这一块还不是现在要吃的。先找带白色光环的那一块(第 %d 块)。" % (next_idx + 1)
-		_warn.visible = true
-		(get_node("WarnDim") as ColorRect).visible = true
+		_show_warn("这一块还不是现在要吃的,先找带白色光环的那一块。", Callable())
 		Sfx.wrong()
 	else:
 		lives -= 1
 		invuln_t = 1.0
 		Sfx.wrong()
 		if lives <= 0:
-			_game_over()
+			_game_over("挑战失败:生命用尽")
 			return
+		_show_warn("顺序不对!扣掉一条命,还剩 %d 条。先找带光环的那一块。" % lives, Callable())
 	snake.pop_back()
 	snake_labels.pop_back()
 	_update_hud()
 
 
+func _show_warn(text: String, cb: Callable) -> void:
+	_warn_text.text = text
+	_warn_cb = cb
+	_warn.visible = true
+	(get_node("WarnDim") as ColorRect).visible = true
+
+
 func _hide_warn() -> void:
 	_warn.visible = false
 	(get_node("WarnDim") as ColorRect).visible = false
+	var cb := _warn_cb
+	_warn_cb = Callable()
+	if cb.is_valid():
+		cb.call()
 
 
 func _sentence_complete() -> void:
@@ -767,10 +777,13 @@ func _sentence_complete() -> void:
 	_show_result(true)
 
 
-func _game_over() -> void:
+func _game_over(reason := "") -> void:
 	state = State.OVER
 	Sfx.over()
-	_show_result(false)
+	_hide_warn()
+	# reference behavior: warn modal with reason, OK returns to menu
+	_show_warn("游戏结束:%s" % (reason if reason != "" else "再试一次!"),
+		func(): get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
 
 
 func _toggle_pause() -> void:
@@ -896,11 +909,9 @@ func _draw_board() -> void:
 
 	var chunks: Array = GameData.sentence().get("chunks", [])
 	var now := Time.get_ticks_msec() / 1000.0
-	# decoy cupcakes first, target on top
-	for cell in blocks.keys():
-		_draw_cupcake(cell, blocks[cell], chunks, false, now)
-	if target_cell.x >= 0:
-		_draw_cupcake(target_cell, next_idx, chunks, true, now)
+	# all chunk cupcakes on the board; the next target gets the glow ring
+	for cell in foods.keys():
+		_draw_cupcake(cell, foods[cell], chunks, foods[cell] == next_idx, now)
 
 	_draw_snake()
 
@@ -1074,9 +1085,11 @@ func hook_set_dir(d: Vector2i) -> void:
 
 
 func hook_eat_next() -> void:
-	if target_cell.x < 0:
+	var tc := _target_cell()
+	if tc.x < 0:
 		return
-	snake.push_front(target_cell)
+	foods.erase(tc)
+	snake.push_front(tc)
 	snake_labels.push_front(-1)
 	_eat_target()
 
@@ -1093,6 +1106,6 @@ func hook_stats() -> Dictionary:
 	return {
 		"score": score, "next_idx": next_idx, "eaten": eaten,
 		"lives": lives, "wrong": wrong_count, "state": hook_state(),
-		"snake_len": snake.size(), "blocks": blocks.size(),
+		"snake_len": snake.size(), "foods": foods.size(),
 		"elapsed": elapsed,
 	}

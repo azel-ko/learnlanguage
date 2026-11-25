@@ -80,7 +80,8 @@ func _run() -> void:
 	var st: Dictionary = game.hook_stats()
 	_assert(st["state"] == "PLAY", "hook_start enters PLAY")
 	_assert(st["snake_len"] >= 3, "snake initial length >= 3")
-	_assert(st["blocks"] >= 1, "decoy blocks spawned")
+	var chunk_n: int = GameData.sentence().get("chunks", []).size()
+	_assert(st["foods"] == chunk_n, "all %d chunk cupcakes placed on board" % chunk_n)
 	await _shot("04_game_play")
 
 	# real movement: snake must advance on its own via _process/_step
@@ -95,7 +96,9 @@ func _run() -> void:
 	game.hook_set_dir(Vector2i.LEFT)
 	await _wait(0.5)
 
-	# eat all chunks via hook
+	# eat all chunks via hook — freeze real movement first so the live snake
+	# can't eat foods / hit walls and make the test flaky
+	game.move_interval = 999.0
 	var chunks: int = GameData.sentence().get("chunks", []).size()
 	for i in chunks:
 		game.hook_eat_next()
