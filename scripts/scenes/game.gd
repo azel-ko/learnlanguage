@@ -64,10 +64,27 @@ var _sb_sticker: StyleBoxFlat
 
 
 func _ready() -> void:
+	_register_input_actions()
 	_build_ui()
 	_start_sentence()
 	get_viewport().size_changed.connect(_layout)
 	_layout.call_deferred()
+
+
+## Register WASD + P/Esc actions that project.godot doesn't define
+## (is_action_pressed on a missing action spams errors every keypress).
+func _register_input_actions() -> void:
+	var defs := {
+		"a": [KEY_A], "d": [KEY_D], "w": [KEY_W], "s": [KEY_S],
+		"pause": [KEY_P, KEY_ESCAPE, KEY_SPACE],
+	}
+	for act in defs:
+		if not InputMap.has_action(act):
+			InputMap.add_action(act)
+		for kc in defs[act]:
+			var ev := InputEventKey.new()
+			ev.physical_keycode = kc
+			InputMap.action_add_event(act, ev)
 
 
 # ------------------------------------------------------------------ styles
