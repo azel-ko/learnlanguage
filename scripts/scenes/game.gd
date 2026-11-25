@@ -47,6 +47,7 @@ var _pause_btn: Button
 var _hud_labels := {}
 var _touch_start := Vector2.ZERO
 var _touch_dir := Vector2i.ZERO
+var _hint: Label
 
 
 func _ready() -> void:
@@ -129,6 +130,16 @@ func _build_ui() -> void:
 	_result_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
 	_result_panel.visible = false
 	add_child(_result_panel)
+
+	# control hint (fades after a few seconds of play)
+	_hint = UiKit.label("方向键 / WASD 转向 · 触屏滑动 · P 暂停 · 蛇会自动前进,别撞墙!", 22, Color(0.45, 0.38, 0.48), HORIZONTAL_ALIGNMENT_CENTER)
+	_hint.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	_hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_hint.offset_top = -160
+	_hint.offset_bottom = -128
+	_hint.modulate.a = 0.0
+	add_child(_hint)
 
 	# touch input on whole control
 	gui_input.connect(_on_gui_input)
@@ -371,6 +382,8 @@ func _process(delta: float) -> void:
 				invuln_t -= delta
 			_update_popups(delta)
 			_update_hud()
+			# fade the control hint
+			_hint.modulate.a = clampf(1.6 - elapsed * 0.25, 0.0, 0.9) if elapsed < 6.0 else 0.0
 	_state_redraw()
 
 
