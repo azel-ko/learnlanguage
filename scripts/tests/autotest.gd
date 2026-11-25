@@ -58,7 +58,7 @@ func _load(path: String) -> Node:
 func _run() -> void:
 	print("=== Grammar Snake autotest ===")
 	print("sentences loaded: %d" % GameData.sentences.size())
-	_assert(GameData.sentences.size() == 10, "10 sentences in JSON")
+	_assert(GameData.sentences.size() == 20, "20 sentences in JSON")
 	for s in GameData.sentences:
 		_assert(s.get("chunks", []).size() >= 3, "sentence %d has >=3 chunks" % s.get("ls", -1))
 

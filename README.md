@@ -1,7 +1,7 @@
 # 长句组块贪吃蛇 · Grammar Snake
 
 把长句按**语法成分**切成词块,贪吃蛇按句子顺序吃块的语言学习小游戏。
-首批数据为托福衔接班语法长句(10 句),任何学科都能换:`data/sentences.json` 换数据即玩。
+首批数据为托福衔接班语法长句(20 句),任何学科都能换:`data/sentences.json` 换数据即玩。
 
 Godot 4.7 · GDScript · 无第三方资源(美术为代码绘制的玩具糖果风,音效为程序生成)
 
@@ -40,7 +40,7 @@ GODOT=/path/to/Godot_v4.7.2-stable_linux.x86_64 ./run.sh
 
 ```bash
 godot --path . res://tests/autotest.tscn -- --out=tests/shots
-# 断言:10 句数据、场景加载、计数倒数、吃块成长/计分/通关、
+# 断言:20 句数据、场景加载、计数倒数、吃块成长/计分/通关、
 #       挑战模式扣命、桌面 1440×900 与手机竖屏 390×844 截图
 # 退出码 0 = 全部通过
 ```
@@ -64,7 +64,7 @@ godot --path . res://tests/autotest.tscn -- --out=tests/shots
 
 ```
 project.godot          Godot 4.7 工程配置(autoload: GameData / Sfx)
-data/sentences.json    10 句语法长句 + 语法成分切块
+data/sentences.json    20 句语法长句 + 语法成分切块
 scenes/                四屏场景(代码构建 UI)
 scripts/scenes/        各屏逻辑;game.gd 含全部玩法与测试钩子
 scripts/ui_kit.gd      糖果风 UI 控件库(CJK 字体走系统字体)

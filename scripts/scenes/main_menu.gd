@@ -68,7 +68,7 @@ func _build() -> void:
 	var sp := Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(sp)
-	head.add_child(UiKit.label("10 句 · 英汉双语 · 点卡片即玩", 20, Color("9a9fae")))
+	head.add_child(UiKit.label("%d 句 · 英汉双语 · 点卡片即玩" % GameData.sentences.size(), 20, Color("9a9fae")))
 	vb.add_child(head)
 
 	_grid = GridContainer.new()

@@ -168,7 +168,7 @@ static func chunk_pill(order: int, text: String, role: String, en_mode := true) 
 ## sentence card for menu grid
 static func sentence_card(index: int, total: int, en: String, zh: String, color: Color) -> Button:
 	var b := Button.new()
-	b.custom_minimum_size = Vector2(0, 120)
+	b.custom_minimum_size = Vector2(0, 150)
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var vb := VBoxContainer.new()
 	vb.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -179,10 +179,10 @@ static func sentence_card(index: int, total: int, en: String, zh: String, color:
 	vb.add_theme_constant_override("separation", 4)
 	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	vb.add_child(label("SENTENCE %02d" % (index + 1), 18, color))
-	var en_l := label(en.left(60) + ("…" if en.length() > 60 else ""), 22, INK)
+	var en_l := label(en, 20, INK)
 	en_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	vb.add_child(en_l)
-	var zh_l := label(zh.left(40) + ("…" if zh.length() > 40 else ""), 18, INK_SOFT)
+	var zh_l := label(zh, 17, INK_SOFT)
 	zh_l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	vb.add_child(zh_l)
 	vb.add_child(label("▶", 26, color, HORIZONTAL_ALIGNMENT_RIGHT))

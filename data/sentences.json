@@ -112,6 +112,115 @@
         { "en": "that most voters cared more about jobs", "zh": "大多数选民更关心就业(表语从)", "role": "Clause", "attach": 1 },
         { "en": "than about taxes", "zh": "而不是税收(比较)", "role": "Adv", "attach": 2 }
       ]
+    },
+    {
+      "ls": 11,
+      "en": "Although the topic was difficult, students understood it because the professor used clear examples.",
+      "zh": "尽管这个话题很难,但由于教授用了清晰的例子,学生们还是理解了它。",
+      "chunks": [
+        { "en": "Although the topic was difficult", "zh": "尽管这个话题很难(让步状从)", "role": "Adv", "attach": 2 },
+        { "en": "students", "zh": "学生们(主)", "role": "S", "attach": -1 },
+        { "en": "understood", "zh": "理解了(谓)", "role": "V", "attach": -1 },
+        { "en": "it", "zh": "它(宾)", "role": "O", "attach": 2 },
+        { "en": "because the professor used clear examples", "zh": "因为教授用了清晰的例子(原因状从)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 12,
+      "en": "The theory, which many scientists once accepted, was later disproved by new evidence.",
+      "zh": "那个曾被许多科学家接受的理论,后来被新的证据推翻了。",
+      "chunks": [
+        { "en": "The theory", "zh": "那个理论(主)", "role": "S", "attach": -1 },
+        { "en": "which many scientists once accepted", "zh": "许多科学家曾经接受的(定从)", "role": "Attr", "attach": 0 },
+        { "en": "was later disproved", "zh": "后来被推翻了(谓,被动)", "role": "V", "attach": -1 },
+        { "en": "by new evidence", "zh": "被新的证据(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 13,
+      "en": "What researchers discovered surprised the whole scientific community.",
+      "zh": "研究人员们发现的东西让整个科学界感到惊讶。",
+      "chunks": [
+        { "en": "What researchers discovered", "zh": "研究人员们发现的(what主语从)", "role": "Clause", "attach": -1 },
+        { "en": "surprised", "zh": "使……惊讶(谓)", "role": "V", "attach": -1 },
+        { "en": "the whole scientific community", "zh": "整个科学界(宾)", "role": "O", "attach": 1 }
+      ]
+    },
+    {
+      "ls": 14,
+      "en": "The fact that students perform better with adequate sleep has been well documented in recent studies.",
+      "zh": "学生在睡眠充足时表现更好这一事实,已在近期研究中得到充分证实。",
+      "chunks": [
+        { "en": "The fact", "zh": "这个事实(主)", "role": "S", "attach": -1 },
+        { "en": "that students perform better with adequate sleep", "zh": "学生睡眠充足时表现更好(同位语从)", "role": "Clause", "attach": 0 },
+        { "en": "has been well documented", "zh": "已被充分证实(谓,被动)", "role": "V", "attach": -1 },
+        { "en": "in recent studies", "zh": "在近期研究中(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 15,
+      "en": "Unless the weather improves, the outdoor concert will be moved indoors.",
+      "zh": "除非天气好转,否则户外音乐会将改到室内举行。",
+      "chunks": [
+        { "en": "Unless the weather improves", "zh": "除非天气好转(条件状从)", "role": "Adv", "attach": 2 },
+        { "en": "the outdoor concert", "zh": "户外音乐会(主)", "role": "S", "attach": -1 },
+        { "en": "will be moved", "zh": "将被移动(谓,被动)", "role": "V", "attach": -1 },
+        { "en": "indoors", "zh": "到室内(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 16,
+      "en": "The committee will meet when the Prime Minister is in Ottawa.",
+      "zh": "当总理在渥太华期间,委员会将举行会议。",
+      "chunks": [
+        { "en": "The committee", "zh": "委员会(主)", "role": "S", "attach": -1 },
+        { "en": "will meet", "zh": "将举行会议(谓)", "role": "V", "attach": -1 },
+        { "en": "when the Prime Minister is in Ottawa", "zh": "当总理在渥太华时(时间状从)", "role": "Adv", "attach": 1 }
+      ]
+    },
+    {
+      "ls": 17,
+      "en": "The passenger stepped off the train once it had reached the station.",
+      "zh": "火车一到站,那名乘客就下了车。",
+      "chunks": [
+        { "en": "The passenger", "zh": "那名乘客(主)", "role": "S", "attach": -1 },
+        { "en": "stepped off", "zh": "走下(谓)", "role": "V", "attach": -1 },
+        { "en": "the train", "zh": "火车(宾)", "role": "O", "attach": 1 },
+        { "en": "once it had reached the station", "zh": "一到站(时间状从)", "role": "Adv", "attach": 1 }
+      ]
+    },
+    {
+      "ls": 18,
+      "en": "How long the settlers had been in America is not known to historians.",
+      "zh": "这些定居者在美洲待了多久,历史学家们不得而知。",
+      "chunks": [
+        { "en": "How long the settlers had been in America", "zh": "定居者在美洲待了多久(主语从)", "role": "Clause", "attach": -1 },
+        { "en": "is not known", "zh": "不得而知(谓)", "role": "V", "attach": -1 },
+        { "en": "to historians", "zh": "对历史学家们(状)", "role": "Adv", "attach": 1 }
+      ]
+    },
+    {
+      "ls": 19,
+      "en": "Having finished the experiment, the team analyzed the results carefully.",
+      "zh": "做完实验后,团队仔细地分析了结果。",
+      "chunks": [
+        { "en": "Having finished the experiment", "zh": "做完实验后(分词状)", "role": "Adv", "attach": 1 },
+        { "en": "the team", "zh": "团队(主)", "role": "S", "attach": -1 },
+        { "en": "analyzed", "zh": "分析了(谓)", "role": "V", "attach": -1 },
+        { "en": "the results", "zh": "结果(宾)", "role": "O", "attach": 2 },
+        { "en": "carefully", "zh": "仔细地(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 20,
+      "en": "The museum that we visited last year is closing down next month.",
+      "zh": "我们去年参观的那座博物馆下个月要关闭了。",
+      "chunks": [
+        { "en": "The museum", "zh": "那座博物馆(主)", "role": "S", "attach": -1 },
+        { "en": "that we visited last year", "zh": "我们去年参观的(定从)", "role": "Attr", "attach": 0 },
+        { "en": "is closing down", "zh": "要关闭了(谓)", "role": "V", "attach": -1 },
+        { "en": "next month", "zh": "下个月(状)", "role": "Adv", "attach": 2 }
+      ]
     }
   ]
 }
