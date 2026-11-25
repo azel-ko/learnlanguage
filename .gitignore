@@ -1,0 +1,7 @@
+.godot/
+.import/
+*.translation
+export_presets.cfg.local
+.DS_Store
+__pycache__/
+.idea/

@@ -1,0 +1,117 @@
+{
+  "sentences": [
+    {
+      "ls": 1,
+      "en": "The professor explained the concept that students found difficult in a clear way.",
+      "zh": "教授用一种清晰的方式讲解了学生们觉得困难的那个概念。",
+      "chunks": [
+        { "en": "The professor", "zh": "教授(主)", "role": "S", "attach": -1 },
+        { "en": "explained", "zh": "讲解(谓)", "role": "V", "attach": -1 },
+        { "en": "the concept", "zh": "那个概念(宾)", "role": "O", "attach": 1 },
+        { "en": "that students found difficult", "zh": "学生们觉得困难的(定从)", "role": "Attr", "attach": 2 },
+        { "en": "in a clear way", "zh": "以清晰的方式(状)", "role": "Adv", "attach": 1 }
+      ]
+    },
+    {
+      "ls": 2,
+      "en": "Because the experiment failed, the researchers redesigned their method carefully.",
+      "zh": "因为实验失败了,研究人员们仔细地重新设计了他们的方法。",
+      "chunks": [
+        { "en": "Because the experiment failed", "zh": "因为实验失败了(状从)", "role": "Adv", "attach": 2 },
+        { "en": "the researchers", "zh": "研究人员们(主)", "role": "S", "attach": -1 },
+        { "en": "redesigned", "zh": "重新设计了(谓)", "role": "V", "attach": -1 },
+        { "en": "their method", "zh": "他们的方法(宾)", "role": "O", "attach": 2 },
+        { "en": "carefully", "zh": "仔细地(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 3,
+      "en": "The report, which the committee published yesterday, surprised many economists.",
+      "zh": "委员会昨天发布的那份报告让许多经济学家感到惊讶。",
+      "chunks": [
+        { "en": "The report", "zh": "那份报告(主)", "role": "S", "attach": -1 },
+        { "en": "which the committee published yesterday", "zh": "委员会昨天发布的(定从)", "role": "Attr", "attach": 0 },
+        { "en": "surprised", "zh": "使……惊讶(谓)", "role": "V", "attach": -1 },
+        { "en": "many economists", "zh": "许多经济学家(宾)", "role": "O", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 4,
+      "en": "Students who review their notes regularly tend to perform better on exams.",
+      "zh": "定期复习笔记的学生在考试中往往表现更好。",
+      "chunks": [
+        { "en": "Students", "zh": "学生们(主)", "role": "S", "attach": -1 },
+        { "en": "who review their notes regularly", "zh": "定期复习笔记的(定从)", "role": "Attr", "attach": 0 },
+        { "en": "tend to perform", "zh": "往往表现(谓)", "role": "V", "attach": -1 },
+        { "en": "better", "zh": "更好(状)", "role": "Adv", "attach": 2 },
+        { "en": "on exams", "zh": "在考试中(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 5,
+      "en": "It is essential that every applicant submit the form before Friday.",
+      "zh": "每位申请者在星期五之前提交表格是必不可少的。",
+      "chunks": [
+        { "en": "It", "zh": "这(主)", "role": "S", "attach": -1 },
+        { "en": "is essential", "zh": "是必不可少的(谓)", "role": "V", "attach": -1 },
+        { "en": "that every applicant submit the form", "zh": "每位申请者提交表格(主语从)", "role": "Clause", "attach": 1 },
+        { "en": "before Friday", "zh": "在星期五之前(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 6,
+      "en": "The new policy, despite its high cost, has improved the school's safety record significantly.",
+      "zh": "尽管成本很高,这项新政策显著改善了学校的安全记录。",
+      "chunks": [
+        { "en": "The new policy", "zh": "这项新政策(主)", "role": "S", "attach": -1 },
+        { "en": "despite its high cost", "zh": "尽管成本很高(让步状)", "role": "Adv", "attach": 0 },
+        { "en": "has improved", "zh": "已经改善了(谓)", "role": "V", "attach": -1 },
+        { "en": "the school's safety record", "zh": "学校的安全记录(宾)", "role": "O", "attach": 2 },
+        { "en": "significantly", "zh": "显著地(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 7,
+      "en": "Not until the lights went out did the audience realize how powerful the speech had been.",
+      "zh": "直到灯光熄灭,观众才意识到那场演讲有多么有力量。",
+      "chunks": [
+        { "en": "Not until the lights went out", "zh": "直到灯光熄灭(倒装状)", "role": "Adv", "attach": 1 },
+        { "en": "did the audience realize", "zh": "观众才意识到(谓倒装)", "role": "V", "attach": -1 },
+        { "en": "how powerful the speech had been", "zh": "那场演讲曾有多有力量(宾从)", "role": "Clause", "attach": 1 }
+      ]
+    },
+    {
+      "ls": 8,
+      "en": "The author argues that economic growth alone cannot solve the problem of inequality.",
+      "zh": "作者认为,仅靠经济增长无法解决不平等问题。",
+      "chunks": [
+        { "en": "The author", "zh": "作者(主)", "role": "S", "attach": -1 },
+        { "en": "argues", "zh": "认为(谓)", "role": "V", "attach": -1 },
+        { "en": "that economic growth alone cannot solve the problem", "zh": "仅靠经济增长无法解决这个问题(宾从)", "role": "Clause", "attach": 1 },
+        { "en": "of inequality", "zh": "不平等(的)(定)", "role": "Attr", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 9,
+      "en": "Having finished the project ahead of schedule, the team celebrated with a small dinner.",
+      "zh": "由于提前完成了项目,团队以一顿小晚餐来庆祝。",
+      "chunks": [
+        { "en": "Having finished the project ahead of schedule", "zh": "提前完成了项目(分词状)", "role": "Adv", "attach": 1 },
+        { "en": "the team", "zh": "团队(主)", "role": "S", "attach": -1 },
+        { "en": "celebrated", "zh": "庆祝了(谓)", "role": "V", "attach": -1 },
+        { "en": "with a small dinner", "zh": "以一顿小晚餐(状)", "role": "Adv", "attach": 2 }
+      ]
+    },
+    {
+      "ls": 10,
+      "en": "What the survey revealed was that most voters cared more about jobs than about taxes.",
+      "zh": "调查揭示的是,大多数选民更关心就业而不是税收。",
+      "chunks": [
+        { "en": "What the survey revealed", "zh": "调查揭示的(what主语从)", "role": "Clause", "attach": -1 },
+        { "en": "was", "zh": "是(谓)", "role": "V", "attach": -1 },
+        { "en": "that most voters cared more about jobs", "zh": "大多数选民更关心就业(表语从)", "role": "Clause", "attach": 1 },
+        { "en": "than about taxes", "zh": "而不是税收(比较)", "role": "Adv", "attach": 2 }
+      ]
+    }
+  ]
+}

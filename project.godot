@@ -1,0 +1,29 @@
+; Engine configuration file.
+; Godot 4.7 project — 长句组块贪吃蛇 (Grammar Snake)
+
+config_version=5
+
+[application]
+
+config/name="长句组块贪吃蛇"
+config/description="把长句按语法成分切成词块,贪吃蛇按句子顺序吃块的语法练习游戏"
+run/main_scene="res://scenes/main_menu.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/bg_color=Color(0.98, 0.93, 0.9, 1)
+
+[autoload]
+
+GameData="*res://scripts/autoload/game_data.gd"
+Sfx="*res://scripts/autoload/sfx.gd"
+
+[display]
+
+window/size/viewport_width=1440
+window/size/viewport_height=900
+window/size/resizable=true
+window/stretch/mode="disabled"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
